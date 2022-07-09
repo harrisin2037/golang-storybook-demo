@@ -1,0 +1,101 @@
+{
+  "name": "golang-storybook-demo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Storybook Design System - Library for multi-framework compoment",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harrisin2037/golang-storybook-demo.git"
+  },
+  "keywords": [
+    "storybook",
+    "libraries"
+  ],
+  "homepage": "https://github.com/harrisin2037/golang-storybook-demo",
+  "bugs": {
+    "url": "https://github.com/harrisin2037/golang-storybook-demo/issues"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/sources/assets",
+      "packages/sources/css",
+      "packages/sources/css/config/*",
+      "packages/sources/css/presets/*",
+      "packages/sources/css/src/design-tokens",
+      "packages/sources/css/src/utilities",
+      "packages/sources/css/src/components/**/*",
+      "packages/sources/icons",
+      "packages/sources/vue",
+      "packages/sources/react",
+      "packages/showcases/*"
+    ]
+  },
+  "scripts": {
+    "prebuild": "yarn lint:fix",
+    "build": "nx run-many --target=build --all --parallel",
+    "build-storybook": "nx run-many --target=build-storybook --all --parallel",
+    "dep-graph": "nx dep-graph",
+    "deploy-storybook": "storybook-to-ghpages --packages packages -o docs --monorepo-index-generator packages/showcases/core/scripts/index-generator.js",
+    "postinstall": "is-ci || husky install",
+    "lint": "yarn prettier && yarn stylelint && nx run-many --target=lint --projects=@vtmn/react,@vtmn/svelte --parallel",
+    "lint:fix": "yarn prettier:fix && yarn stylelint:fix && nx run-many --target=lint:fix --projects=@vtmn/react,@vtmn/svelte --parallel",
+    "prettier": "prettier --plugin-search-dir=. .",
+    "prettier:fix": "prettier --write --plugin-search-dir=. .",
+    "release": "lerna publish --no-verify-access --no-private --no-commit-hooks --yes",
+    "start": "nx run-many --target=start --all --parallel",
+    "start:css": "nx run-many --target=start --projects=@vtmn/showcase-css,@vtmn/css --parallel",
+    "start:icons": "nx run-many --target=start --projects=@vtmn/showcase-icons,@vtmn/icons --parallel",
+    "start:react": "nx run-many --target=start --projects=@vtmn/showcase-react,@vtmn/react --parallel",
+    "start:svelte": "nx run-many --target=start --projects=@vtmn/showcase-svelte,@vtmn/svelte --parallel",
+    "start:vue": "nx run-many --target=start --projects=@vtmn/showcase-vue,@vtmn/vue --parallel",
+    "stylelint": "stylelint packages/**/*.css",
+    "stylelint:fix": "yarn stylelint --fix",
+    "test": "nx run-many --target=test --all --parallel"
+  },
+  "lint-staged": {
+    "./packages/**/*.css": [
+      "yarn stylelint:fix"
+    ],
+    "./packages/**/*.{json,js,jsx,ts,tsx,svelte}": [
+      "yarn prettier:fix"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.0",
+    "@commitlint/config-conventional": "^17.0.0",
+    "@nrwl/cli": "^14.1.6",
+    "@nrwl/nx-cloud": "^14.0.3",
+    "@nrwl/tao": "^14.1.6",
+    "@nrwl/workspace": "^14.1.6",
+    "@storybook/storybook-deployer": "^2.8.10",
+    "cross-env": "^7.0.2",
+    "husky": "^8.0.1",
+    "is-ci": "^3.0.1",
+    "lerna": "^4.0.0",
+    "lint-staged": "^13.0.2",
+    "prettier": "^2.2.1",
+    "prettier-plugin-svelte": "^2.6.0",
+    "stylelint": "^14.0.0",
+    "stylelint-config-prettier": "^9.0.2",
+    "stylelint-config-standard": "^26.0.0",
+    "svelte": "^3.46.3",
+    "typescript": "^4.5.4"
+  },
+  "engines": {
+    "node": "^14 || ^15 || ^16 || ^17",
+    "npm": "please-use-yarn",
+    "yarn": ">= 1.19.1"
+  },
+  "storybook-deployer": {
+    "gitUsername": "Github Page Bot",
+    "gitEmail": "gp@bot.io",
+    "commitMessage": "chore: Deploy Storybook to GitHub Pages"
+  },
+  "dependencies": {
+    "@types/node": "^18.0.0"
+  },
+  "volta": {
+    "node": "16.13.2",
+    "yarn": "1.22.17"
+  }
+}
